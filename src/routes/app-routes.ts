@@ -1,5 +1,6 @@
 import { PathItem } from '../models/route.model';
 import MainContainer from '~containers/Main/Main';
+import TodosListContainer from '~containers/TodosListContainer/TodosListContainer';
 import NumberTemplate from '~containers/ProcessCounter/NumberTemplate';
 
 export const appRoutes: PathItem[] = [
@@ -11,6 +12,11 @@ export const appRoutes: PathItem[] = [
   {
     path: '/processCounter',
     component: NumberTemplate,
+    exact: true,
+  },
+  {
+    path: '/todos',
+    component: TodosListContainer,
     exact: true,
   },
 ];

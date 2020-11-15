@@ -7,11 +7,12 @@ import {
 } from '@ant-design/icons';
 import styled from 'styled-components';
 import { menuModels } from '../../models/menu.model';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
 
-export interface SideMenuProps {
+export interface SideMenuProps extends RouteComponentProps<{ id?: string }> {
   /** 메뉴 접힘/열림 */
   collapsed: boolean;
   /** 현재 선택 메뉴 dispatch 함수 */
@@ -27,6 +28,7 @@ export interface SideMenuProps {
 export const SideMenu: React.FC<SideMenuProps> = ({
   collapsed,
   showMenuTitle,
+  history,
 }) => {
   const IconForMenuItem: any = {
     1: <UserOutlined />,
@@ -36,7 +38,9 @@ export const SideMenu: React.FC<SideMenuProps> = ({
 
   return (
     <SiteLayoutSider trigger={null} collapsible collapsed={collapsed}>
-      <Logo>{!collapsed ? 'LOGO AREA' : ''}</Logo>
+      <Logo>
+        <a href={'/home'}>{!collapsed ? 'LOGO AREA' : ''}</a>
+      </Logo>
       <Menu mode="inline" defaultSelectedKeys={['1']}>
         {menuModels.map(menuItem => {
           return (
@@ -48,10 +52,18 @@ export const SideMenu: React.FC<SideMenuProps> = ({
                   <span>{menuItem.title}</span>
                 </span>
               }
-              onTitleClick={() => showMenuTitle(menuItem.title, menuItem.id)}
+              onTitleClick={() => {
+                showMenuTitle(menuItem.title, menuItem.id);
+              }}
             >
               {menuItem.menus.map(item => (
-                <Menu.Item key={`${menuItem.title}-${item.id}`}>
+                <Menu.Item
+                  key={`${menuItem.title}-${item.id}`}
+                  onClick={() => {
+                    history?.push(`${item.path}`);
+                    // console.log('hihihihi');
+                  }}
+                >
                   {item.text}
                 </Menu.Item>
               ))}
@@ -76,4 +88,4 @@ const Logo = styled.div`
   font-size: 18px;
 `;
 
-export default SideMenu;
+export default withRouter(SideMenu);

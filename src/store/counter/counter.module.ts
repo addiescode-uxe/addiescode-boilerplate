@@ -4,8 +4,7 @@ import {
   EntityState,
   PayloadAction,
 } from '@reduxjs/toolkit';
-
-import { Counter } from '../../models/counter.model';
+import { Counter } from 'models/counter/counter.model';
 
 export interface CounterState extends EntityState<Counter> {
   number: number;
@@ -32,6 +31,7 @@ export const counterSlice = createSlice({
       state.number += action.payload;
     },
   },
+  // extraReducers: builder => builder.addCase,  : 사이드 이펙트 관리 시 붙이기
 });
 
 export const {
